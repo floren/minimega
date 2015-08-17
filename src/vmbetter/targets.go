@@ -5,6 +5,7 @@
 package main
 
 import (
+	"commander"
 	"errors"
 	"fmt"
 	"io"
@@ -287,33 +288,14 @@ func Buildqcow2(buildPath string, c vmconfig.Config) error {
 func createQcow2(target, size string) error {
 	// create our qcow image
 	p := process("qemu-img")
-	cmd := &exec.Cmd{
-		Path: p,
-		Args: []string{
-			p,
-			"create",
-			"-f",
-			"qcow2",
-			target,
-			size,
-		},
-		Env: nil,
-		Dir: "",
+	cmd, err := commander.New(p, []string{p, "create", "-f", "qcow2", target, size})
+	if err != nil {
+		return err
 	}
 	log.Debug("creating disk image with cmd: %v", cmd)
 
-	stdout, err := cmd.StdoutPipe()
-	if err != nil {
-		return err
-	}
-
-	stderr, err := cmd.StderrPipe()
-	if err != nil {
-		return err
-	}
-
-	log.LogAll(stdout, log.INFO, "qemu-img")
-	log.LogAll(stderr, log.ERROR, "qemu-img")
+	log.LogAll(cmd.Stdout, log.INFO, "qemu-img")
+	log.LogAll(cmd.Stderr, log.ERROR, "qemu-img")
 
 	return cmd.Run()
 }

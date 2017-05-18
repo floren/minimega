@@ -1,0 +1,47 @@
+Fetching and configuring minimega
+
+The minimega authors
+18 May 2017
+
+* Overview
+This chapter describes how to prepare your system to run minimega and how to actually get the minimega command on your system.
+
+* Install dependencies
+
+Although minimega does not depend on many external libraries, it needs libpcap and libreadline, both of which are available in standard Linux distributions. On a Debian or Ubuntu system, they can be installed with the command
+
+	$ sudo apt-get install libpcap-dev libreadline-dev
+
+There are also a number of external tools that minimega runs during the course of execution. They are not strictly required to start minimega, but e.g. QEMU/KVM must be installed to actually start a KVM VM. When minimega is started, it will print warning messages if any external programs cannot be found. The following are the programs minimega can call, with the Debian package listed in parentheses; many may already be installed on your system:
+
+- kvm (qemu-kvm): QEMU with the KVM kernel module loaded, minimum version 1.6
+- ip (iproute2): Tool for manipulating network interfaces
+- ovs-vsctl (openvswitch-switch): Open vSwitch switch control
+- ovs-ofctl (openvswitch-common): Open vSwitch openflown control
+- dhclient (isc-dhcp-client): DHCP client
+- dnsmasq (dnsmasq): DNS and DHCP server (minimum version 2.73)
+- qemu-nbd/qemu-img (qemu-tools): tools for interacting with QEMU disk images
+- mkdosfs (dosfstools): used to create some virtual disk images
+- taskset (util-linux): sets CPU affinity for VMs
+- ntfs-3g (ntfs-3g): NTFS with write support, for modifying Windows disk images
+- ssh/scp (openssh-client): used to deploy minimega on other nodes in a cluster
+
+* Get minimega
+There are two ways to get minimega: as a pre-built distribution, or by compiling from source. Downloading a pre-built distribution is recommended, because it is a version of minimega that has been specifically prepared for general use. On the other hand, compiling from source gives the absolute latest version of minimega available, which may include new features and bug-fixes.
+
+** Getting a pre-built distribution
+The simplest way to get minimega is by downloading the pre-compiled archive from the website. The latest version should always be available from the [[http://minimega.org/][minimega.org website]] by clicking on the release notes for the latest version. Currently, the latest version is 2.3, which can be downloaded from [[https://storage.googleapis.com/minimega-files/minimega-2.3.tar.bz2][this link]].
+
+Once the archive is downloaded, simply unpack it and rename the directory to something more convenient:
+
+	$ tar xjvf minimega-2.3.tar.bz2
+	$ mv minimega-2.3-release minimega
+
+** Building from source
+To get the latest version of minimega, you'll need to compile it from source. First, you'll need to have Go installed, at least version 1.8.1. The [[https://golang.org][Go website]] has excellent instructions on how to install Go. Once you've verified that Go is installed and working, you can download the repository and compile the code:
+
+	$ git clone https://github.com/sandia-minimega/minimega.git
+	$ cd minimega
+	$ ./build.bash
+
+If you have properly installed Go and the pre-requisite libraries (libpcap-dev and libreadline-dev), the compilation should proceed without error. Verify that the `bin/` subdirectory has files in it, including `minimega`.

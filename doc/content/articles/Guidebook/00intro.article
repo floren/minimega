@@ -1,0 +1,24 @@
+Introduction
+
+The minimega authors
+18 May 2017
+
+* Overview
+This guidebook is intended to provide new minimega users with a comprehensive overview of how to use minimega, from basic to advanced applications. By working through the chapters in order, the reader can go from zero knowledge to launching complex topologies of virtual machines. Readers already familiar with some aspects of minimega should feel free to skip to chapters covering new topics.
+
+* Using the guidebook interactively
+This guidebook is designed to be interactive. If you run `minimega` and `minidoc` on your local system, many of the example commands will show a "Run" button underneath; clicking the button will execute the command on your local minimega instance and show the resulting output on the webpage.
+
+To run the guidebook locally, you'll need to have minimega fetched and ready to run (see the following chapters to get started). From the top-level minimega distribution, run the following commands:
+
+	$ sudo ./bin/minimega -nostdin -degree 3 &
+	$ sudo ./bin/minidoc -exec &
+
+This will start minimega and minidoc in the background; the `-exec` flag means minidoc will allow commands to be executed from within the web page.
+
+At that point, you can point your web browser to [[http://localhost:9003/articles/Guidebook/][http://localhost:9003/articles/Guidebook]] to view the guidebook locally.
+
+If at any point you need to restart minimega with different command line arguments, you should also restart minidoc to ensure it properly connects to the new minimega instance.
+
+* Pre-requisites
+Although minimega can be compiled for Windows, Mac, and BSD systems, the virtualization technologies it uses are only available on Linux. You will need root access on a Linux system in order to properly run minimega. Any reasonably recent Linux system should be suitable; the more memory available, the better.
